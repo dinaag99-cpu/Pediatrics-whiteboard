@@ -1,0 +1,397 @@
+<!DOCTYPE html><html><head><base target="_top"><meta name="viewport" content="width=device-width, initial-scale=1"><style>
+:root{font-family:Inter,system-ui,-apple-system,Arial,sans-serif;color:#172a39;background:#eef4f7}
+*{box-sizing:border-box}body{margin:0}button,input,select{font:inherit}button{cursor:pointer}
+header{position:sticky;top:0;z-index:5;background:#fff;border-bottom:1px solid #dae3e9;padding:12px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+h1{font-size:21px;margin:0}h2{margin:0;font-size:19px}h3{margin:12px 0 7px;font-size:13px;color:#50677b;text-transform:uppercase;letter-spacing:.055em}
+small,.muted{font-size:12px;color:#647685}.shell{padding:18px;max-width:1800px;margin:auto}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.panel{background:#fff;border:1px solid #dce4ea;border-radius:13px;overflow:hidden;box-shadow:0 2px 12px #15293d0a}
+.panel-title{background:#d9efdf;padding:12px 14px;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}.gpu .panel-title{background:#d9eaff}.admissions .panel-title{background:#d5eaf4}
+.inside{padding:14px}.field{width:100%;padding:7px;border:1px solid #cbd7e0;border-radius:7px;background:#fff;min-width:0}.consultantBox{display:flex;align-items:center;gap:8px;min-width:min(360px,100%)}.consultantBox .field{max-width:260px}
+.boardSummary{display:grid;grid-template-columns:56px 1fr;gap:8px 10px;align-items:start;padding:4px 0 10px;border-bottom:1px solid #edf1f5}.boardSummary+.boardSummary{margin-top:2px}
+.sideTag{display:inline-flex;align-items:center;justify-content:center;padding:4px 8px;border-radius:4px;font-size:12px;font-weight:800;letter-spacing:.04em;min-height:28px}.tagOld{background:#f8d8df;color:#6a1d2b}.tagNew{background:#f8d8df;color:#6a1d2b}.tagTotal,.tagWatcher{background:#f8d8df;color:#6a1d2b;padding:4px 10px;border-radius:4px;font-size:12px;font-weight:800;letter-spacing:.04em;display:inline-block}
+.caseLine{min-height:28px;display:flex;align-items:flex-start;flex-wrap:wrap;gap:4px;line-height:1.7}.dash{color:#9ca8b2;padding-top:3px}.pill{display:inline-block;padding:1px 7px;border-radius:6px;margin:2px 3px 2px 0;font-weight:650;font-size:13px;border:0;background:#eef4fa;color:#1a3550}
+.earlyCircle{display:inline-flex;align-items:center;justify-content:center;border:2px solid currentColor;border-radius:50%;min-width:23px;min-height:23px;padding:0 3px;line-height:1.1;font-weight:800;transform:rotate(-7deg)}.pill.old{background:#e3efff;color:#1563bc}.pill.new{background:#ffe7ea;color:#bd3348}.pill.crossed{opacity:.58;text-decoration:line-through;text-decoration-thickness:2px}.flag{font-size:10px;border:1px solid #d9dde3;padding:2px 4px;border-radius:4px;background:#f1f4f8;color:#40556a}.flag.early{background:#fff0da;color:#8e5905}.flag.watcher{background:#efe7ff;color:#613b9d}.caseItem{display:inline-flex;align-items:center;gap:2px;flex-wrap:wrap}.quickActions{display:flex;gap:4px;flex-wrap:wrap;margin-top:10px}.roomActions{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.section{padding-top:10px}.person{display:grid;grid-template-columns:minmax(125px,180px) 1fr auto;gap:10px;align-items:start;border-bottom:1px solid #edf1f4;padding:9px 0}.person:last-child{border-bottom:0}.role{font-size:11px;color:#536b7b;margin-bottom:3px}.cases{display:flex;flex-wrap:wrap;align-items:center;gap:2px;min-height:30px}
+.compactGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px;margin-top:6px}.compactLabel{margin:11px 0 2px;font-size:11px;color:#617587;font-weight:750;text-transform:uppercase;letter-spacing:.035em}.miniPerson{border:1px solid #e3ebf0;border-radius:7px;padding:5px;background:#fbfdfe;min-width:0}.miniHead{display:flex;align-items:center;justify-content:space-between;gap:4px;margin-bottom:3px}.miniRole{font-size:11px;color:#536b7b}.nameRow{display:flex;align-items:center;gap:4px;margin-bottom:3px}.nameRow .field{padding:4px 5px;font-size:12px}
+.inlineCases{display:flex;align-items:center;flex-wrap:wrap;gap:2px;min-height:22px}.miniPerson .pill{font-size:11px;padding:1px 5px;margin:1px}.miniPerson .mini{font-size:11px;padding:2px 5px}.watcherRooms{display:flex;flex-wrap:wrap;gap:6px 14px;margin:4px 0 8px}.watcherEntry{display:inline-flex;align-items:center;gap:5px}.watchWrap{margin-top:10px}.watchLine{display:grid;grid-template-columns:minmax(120px,160px) 1fr auto;gap:8px;margin-top:6px;align-items:start}.watchLine .field{max-width:150px}
+.infoStrip{display:flex;flex-wrap:wrap;gap:12px;align-items:center;padding:10px 0 4px}.infoCard{display:flex;align-items:center;gap:8px}.watcherInline{flex-wrap:wrap}.watcherInline .inlineCases{gap:3px}.infoNum{font-weight:800;font-size:16px;color:#243f59}
+.mini,.btn{border:1px solid #c8d8e3;border-radius:7px;padding:6px 10px;background:#fff;color:#174466;font-weight:650}.mini{padding:4px 7px;font-size:12px}.btn:hover,.mini:hover{background:#eef6fc}.danger{color:#bb344b}.controls{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0 0}.action{background:#176d9a;color:#fff;border:none;border-radius:7px;padding:8px 12px}.action:hover{background:#125475}
+.admissionRow{border-bottom:1px solid #e5edf2;padding:7px 0;display:flex;gap:8px;align-items:center;flex-wrap:wrap}.spacer{flex:1}.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}.room-note{color:#607588;font-size:12px}
+.notice{padding:10px 12px;border-radius:8px;background:#f6f9fb;border:1px solid #dfe8ee;font-size:12px;line-height:1.5}.notice strong{color:#39556e}.ok{padding:10px;background:#e5f7ed;border-radius:8px;color:#17603d;font-size:12px}
+dialog{border:none;border-radius:13px;width:min(480px,95vw);padding:20px;box-shadow:0 16px 70px #1238}dialog::backdrop{background:#172a3977}.modalGrid{display:grid;grid-template-columns:1fr 1fr;gap:9px}.formFoot{display:flex;justify-content:flex-end;gap:8px;margin-top:16px}#status{font-size:12px;color:#617788}#status.error{color:#b32e4b}.extra{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+@media(max-width:1050px){.compactGrid{grid-template-columns:repeat(3,minmax(0,1fr))}.watchLine{grid-template-columns:1fr}.consultantBox{min-width:100%}}
+@media(max-width:900px){.grid,.extra,.two{grid-template-columns:1fr}}
+@media(max-width:600px){.compactGrid{grid-template-columns:repeat(3,minmax(0,1fr));gap:3px}.miniPerson{padding:3px}.miniPerson .field{font-size:11px;padding:3px}.shell{padding:8px}.inside{padding:10px}.person{grid-template-columns:1fr}.panel-title{padding:9px}.consultantBox{display:block}.consultantBox .field{max-width:none;margin-top:6px}}
+.postcallToggle{display:flex;align-items:center;gap:5px;font-size:11px;font-weight:700;color:#85531d;margin-top:5px;white-space:nowrap}.postcallToggle input{accent-color:#bb833e;margin:0}.watcherRooms{display:flex;gap:6px;flex-wrap:wrap}.watcherEntry{display:inline-flex;align-items:center}.infoCard:has(.tagWatcher){margin-right:-8px}
+.commentLine{display:flex;gap:5px;align-items:center;margin-top:5px;flex-wrap:wrap}.commentBadge{font-size:11px;background:#fff3cf;color:#775515;border-radius:5px;padding:3px 7px;font-weight:700}.dropTarget{background:#f0f8ff!important;outline:2px dashed #3682b5;outline-offset:-3px}.movableRoom{cursor:grab}.moveHint{font-size:11px;color:#647685}
+
+.gpuUnit{border:1px solid #d6e2eb;border-radius:10px;overflow:hidden;margin:10px 0;background:#fff}
+.gpuUnitHead{background:#eff4f8;padding:10px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.gpuUnitHead b{white-space:nowrap}.gpuConsultant{display:flex;align-items:center;gap:5px;width:min(360px,70%)}.gpuConsultant .field{flex:1}
+.gpuUnitBody{padding:9px 10px}.gpuSlot{display:grid;grid-template-columns:minmax(110px,160px) 1fr auto;gap:8px;align-items:center;padding:6px 0;border-top:1px solid #edf1f5}
+.gpuSlot:first-child{border-top:0}.gpuSlot .field{padding:5px}
+.gpuSide{background:#fff9e5;border:1px solid #f0e2b0;border-radius:7px;padding:6px;min-width:195px;max-width:225px}
+.gpuSide .compactGrid{grid-template-columns:1fr;gap:4px}.gpuSide .compactLabel{margin:0 0 4px}
+.gpuSide .miniPerson{padding:4px}.gpuSide .inlineCases{min-height:20px}
+.gpuHeadGrid{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+.gpuStaff{flex:1;min-width:0}.gpuTinyAdd{font-size:11px;margin-top:5px}
+@media(max-width:700px){.gpuHeadGrid{flex-direction:column}.gpuSide{max-width:none;width:100%}.gpuSide .compactGrid{grid-template-columns:repeat(2,minmax(0,1fr))}.gpuSlot{grid-template-columns:100px 1fr auto}}
+
+.gpuCollapsed{display:flex;align-items:center;justify-content:center;background:#fff9e5;border:1px solid #f0e2b0;border-radius:7px;padding:6px;min-width:38px}
+.gpuCollapsed .mini{font-weight:800}.gpuSideTitle{display:flex;justify-content:space-between;align-items:center;gap:4px}
+.siblingMark{font-weight:900;color:#6750a4;font-size:15px;margin-left:2px;text-decoration:underline;text-decoration-thickness:2px}
+.bulkLabel{font-size:12px;color:#526a7d;margin:8px 0 4px;display:block}
+#bulkRooms{width:100%;min-height:60px;resize:vertical}
+
+.roomGroup{display:inline-block;white-space:nowrap;margin:2px 6px 2px 0;padding:3px 7px;border-radius:6px;font-size:13px;font-weight:650;vertical-align:middle;line-height:25px}
+.roomGroup.old{background:#e3efff;color:#1563bc}.roomGroup.new{background:#ffe7ea;color:#bd3348}
+.roomGroup.crossed{opacity:.6}.roomGroup .groupRoom{background:transparent;border:0;padding:0 1px;color:inherit;font:inherit;cursor:pointer}
+.roomGroup .groupRoom:hover{text-decoration:underline}.roomGroup .groupRoom.crossed{text-decoration:line-through}
+.roomGroup .roomPiece{display:inline;white-space:nowrap}.roomGroup .siblingMark{font-size:12px;margin:0 2px}.roomGroup .earlyCircle{border:2px solid currentColor;border-radius:50%;padding:0 2px}
+.admissionGroups{margin-top:12px;display:flex;flex-direction:column;gap:9px}
+.admissionGroup{display:flex;align-items:flex-start;gap:9px;min-width:0}
+.admissionWard{font-size:12px;font-weight:800;min-width:30px;padding-top:5px;color:#536878}
+.admissionChips{display:flex;flex-wrap:wrap;gap:5px;align-items:center;min-width:0}
+.admissionCompact{display:inline-flex;align-items:center;white-space:nowrap}
+.admissionCompact .pill{margin:0;padding:4px 8px}
+
+#tvBoard{display:none}body.tvMode main.shell{display:none}body.tvMode #tvBoard{display:block}body.tvMode header small{display:none}
+body.tvMode{background:#eff3f7}body.tvMode header{padding:9px 18px}body.tvMode h1{font-size:23px}
+.tvCanvas{padding:12px 16px;min-height:calc(100vh - 67px)}.tvGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:start}
+.tvPanel{background:#fff;border:1px solid #cdd9e3;border-radius:10px;overflow:hidden;min-width:0}
+.tvHead{background:#d9efdf;padding:10px 14px;font-size:23px;font-weight:800;display:flex;justify-content:space-between;gap:10px}
+.tvPanel.gpuTV .tvHead,.tvPanel.admitTV .tvHead{background:#d9eafa}.tvBody{padding:10px 14px}
+.tvRow{display:grid;grid-template-columns:180px minmax(0,1fr);gap:12px;align-items:baseline;padding:5px 0;border-bottom:1px solid #edf1f5;font-size:19px}
+.tvRow:last-child{border-bottom:0}.tvWard{font-weight:750;color:#455e73}.tvOld{color:#1563bc;font-weight:700}.tvNew{color:#bd3348;font-weight:700}.tvRooms{display:flex;flex-wrap:wrap;gap:8px}
+.tvChips{display:inline-flex;flex-wrap:wrap;gap:8px}.tvChip{border-radius:5px;padding:3px 7px;font-size:18px;background:#e3efff;color:#1563bc;font-weight:650}.tvChip.new{background:#ffe7ea;color:#bd3348}.tvCircle{display:inline-block;border:2px solid currentColor;border-radius:50%;padding:0 3px;line-height:1.14;margin:0 1px;font-weight:800}.tvNote{font-size:15px;color:#8d5b16;margin-left:9px}
+.tvConsultant{font-size:17px;font-weight:700;color:#39596b;text-align:right;overflow-wrap:anywhere}.tvSubhead{font-size:18px;font-weight:800;background:#edf2f7;padding:7px 10px;margin-top:8px}.tvFooter{display:flex;gap:20px;flex-wrap:wrap;padding:8px 0;font-size:18px}
+.tvCoverage{border-top:1px dashed #cbd8e1;margin-top:5px;padding-top:4px}.tvCoverage .tvRow{font-size:13px;padding:2px 0;grid-template-columns:180px minmax(0,1fr)}.tvCoverage .tvChip{font-size:12px;padding:1px 4px}.tvCoverageHeading{font-size:12px;font-weight:800;letter-spacing:.02em;color:#607184;margin:2px 0}.tvCoverage .tvNote{font-size:11px}
+.tvChecks p{margin:4px 0}.tvTiny{font-size:15px;color:#54687a}
+@media(min-width:1750px){.tvCoverage .tvRow{grid-template-columns:230px 1fr;font-size:15px}.tvCoverage .tvChip{font-size:14px}.tvRow{font-size:23px;grid-template-columns:230px 1fr}.tvChip{font-size:22px}.tvHead{font-size:27px}}
+@media(max-width:1050px){.tvGrid{grid-template-columns:1fr}.tvRow{grid-template-columns:140px 1fr;font-size:16px}.tvChip{font-size:16px}}
+.admissionGroupedLine{margin:7px 0;overflow-wrap:anywhere}.admissionGroupedLine .groupRoom{color:inherit!important;font-weight:700}.admissionGroupedLine .roomGroup{border-radius:7px;padding:6px 9px}
+
+/* Readable TV projection: preserve text size, prioritize legibility over aggressive shrinking. */
+body.tvMode{overflow:auto}
+body.tvMode header{padding:7px 15px;min-height:42px}
+body.tvMode h1{font-size:20px}
+body.tvMode header .mini{font-size:12px;padding:5px 8px}
+body.tvMode #status{font-size:11px}
+body.tvMode .tvCanvas{padding:8px 12px;min-height:0;width:100%;transform:none!important}
+body.tvMode .tvGrid{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px;align-items:start}
+body.tvMode .tvPanel{border-radius:8px}
+body.tvMode .tvHead{padding:8px 12px;font-size:20px;gap:7px}
+body.tvMode .tvConsultant{font-size:15px}
+body.tvMode .tvBody{padding:8px 10px}
+body.tvMode .tvRow{grid-template-columns:140px minmax(0,1fr);gap:8px;font-size:16px;padding:4px 0;line-height:1.3}
+body.tvMode .tvChip{font-size:15px;padding:3px 6px;line-height:1.3}
+body.tvMode .tvChips{gap:5px}
+body.tvMode .tvCircle{border-width:2px;padding:0 2px}
+body.tvMode .tvNote{font-size:12px;margin-left:6px}
+body.tvMode .tvSubhead{margin-top:6px;padding:5px 9px;font-size:15px}
+body.tvMode .tvFooter{font-size:14px;padding:5px 0;gap:12px}
+body.tvMode .tvCoverage{padding-top:3px;margin-top:4px}
+body.tvMode .tvCoverageHeading{font-size:12px}
+body.tvMode .tvCoverage .tvRow{grid-template-columns:140px minmax(0,1fr);font-size:12px;padding:2px 0}
+body.tvMode .tvCoverage .tvChip{font-size:12px;padding:2px 4px}
+body.tvMode .tvGpuHead{display:flex;justify-content:space-between;align-items:baseline;gap:7px;flex-wrap:wrap}
+body.tvMode .tvGroupWatcher{font-size:13px;font-weight:700;white-space:nowrap}
+body.tvMode .tvAdmitting{margin-top:7px;border:1px solid #dee6ec;border-radius:7px;overflow:hidden}
+body.tvMode .tvAdmitting .tvSubhead{margin:0}
+body.tvMode .tvAdmitting .tvRow{padding:5px 8px}
+@media(max-width:1050px){body.tvMode .tvGrid{grid-template-columns:1fr 1fr}body.tvMode .tvRow{grid-template-columns:110px minmax(0,1fr);font-size:14px}}
+</style></head><body>
+<header><div><h1>🩺 Pediatrics Live Whiteboard</h1><small>Shared team board • Room numbers only — no patient identifiers</small></div><div style="display:flex;gap:9px;align-items:center"><span id="status">Loading…</span><button class="mini" onclick="rolloverNewCases()" title="Change all NEW assigned cases to OLD after confirmation">↻ NEW → OLD (next day)</button><button class="mini" id="tvToggle" onclick="toggleTV()">📺 TV View</button><button class="mini" onclick="refresh()">↻ Refresh</button></div></header>
+<main class="shell"><div class="grid"><section class="panel" id="CTU1"></section><section class="panel" id="CTU2"></section><section class="panel gpu" id="GPU"></section><section class="panel admissions" id="admissions"></section></div><div class="extra"><section class="panel"><div class="inside"><h3>Board checks</h3><div id="checksPanel"></div></div></section><section class="panel"><div class="inside"><h3>Room check rules</h3><p class="room-note">P1: 1–36 · P5: 1–37. P2, P3 and VIP are checked for duplicates, not missing rooms. Intern/student coverage is not counted separately.</p><p class="room-note">VIP rooms can be assigned normally, but they will not appear in missing-room alerts.</p><p class="room-note">Only admissions without an active primary team assignment appear in the admissions-to-assign check.</p></div></section></div></main>
+<div id="tvBoard" aria-label="Read-only television whiteboard"></div><dialog id="roomDialog"><h2 id="dialogTitle">Add case</h2><form id="roomForm"><div class="modalGrid"><label>Ward<select class="field" id="floor"><option>P1</option><option>P5</option><option>P2</option><option>P3</option><option>VIP</option></select></label><label>Room number<input class="field" id="room" type="number" min="1" max="999" placeholder="e.g. 12"></label><label>Status<select class="field" id="caseStatus"><option value="old">OLD — Blue</option><option value="new">NEW — Red</option></select></label><label id="noteLabel">Note (optional)<input class="field" id="caseNote" maxlength="70" placeholder="No patient information"></label></div><div id="bulkRoomBlock" style="display:none;margin-top:10px"><label class="bulkLabel">Add several rooms in the selected ward (e.g. 2, 3, 4 or 2-4)</label><textarea id="bulkRooms" class="field" placeholder="2, 3, 4"></textarea><p class="muted">For new cases only. Leave this blank to add a single room above.</p></div><div id="siblingBlock" style="display:none;margin-top:10px"><label class="muted">Sibling link (optional)<select class="field" id="siblingRoom"></select></label><p class="muted">Select the sibling room. Both rooms will show a matching linked ↔ marker.</p></div><div id="moveRoomBlock" style="display:none;margin-top:12px"><label class="muted">Move this room to another resident / specialist<select class="field" id="moveDestination"></select></label><button type="button" class="mini" style="margin-top:5px" onclick="moveFromDialog()">Move case</button><div class="moveHint">Or drag the room onto another resident's row.</div></div><div id="existingRoomActions" class="roomActions" style="display:none"><button type="button" class="mini" onclick="toggleFlag('early')">Early discharge</button><button type="button" class="mini" onclick="toggleFlag('watcher')">Watcher</button><button type="button" class="mini" onclick="toggleCrossed()">Cross out / Restore</button><button type="button" class="mini danger" onclick="deleteEditingCase()">Delete room</button></div><p class="muted">Only use room codes. Do not enter patient names, diagnoses, or MRNs.</p><div class="formFoot"><button type="button" class="mini" onclick="document.getElementById('roomDialog').close()">Cancel</button><button type="submit" class="action">Save case</button></div></form></dialog>
+<script>
+let state=null,loadedVersion=0,saveTimer=null,saving=false,queued=false,editing=null;
+const gpuExpanded={1:true,2:true};
+const $=id=>document.getElementById(id);
+const uid=()=>Math.random().toString(36).slice(2)+Date.now().toString(36);
+const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const norm=c=>c.floor+String(Number(c.room)); // internal unique room key
+const displayRoom=c=>`${esc(c.floor)}(${c.flag==='early'?`<span class="earlyCircle">${Number(c.room)}</span>`:Number(c.room)})`;
+const sorted=arr=>[...arr].sort((a,b)=>(a.status==='old'?0:1)-(b.status==='old'?0:1)||a.floor.localeCompare(b.floor,undefined,{numeric:true})||Number(a.room)-Number(b.room));
+const casesOf=t=>t.members.flatMap(m=>m.cases||[]);
+// Interns and students are coverage of existing cases, not additional patients.
+const primaryMembers=t=>t.members.filter(m=>!['Intern','Student'].includes(m.role));
+const primaryCasesOf=t=>primaryMembers(t).flatMap(m=>m.cases||[]).filter(c=>!c.crossed);
+const activeCasesOf=t=>[...new Map(primaryCasesOf(t).map(c=>[norm(c),c])).values()];
+function caseArray(e){return e.admission?state.admissions:e.watcher?state.teams[e.team].watchers.find(x=>x.id===e.memberId).cases:state.teams[e.team].members.find(x=>x.id===e.memberId).cases;}
+function report(msg,err=false){$('status').textContent=msg;$('status').className=err?'error':'';}
+function load(){google.script.run.withSuccessHandler(s=>{state=s;loadedVersion=s.version;render();report('Synced '+new Date().toLocaleTimeString());}).withFailureHandler(e=>report('Load failed: '+e.message,true)).getState();}
+function refresh(){if(saving||saveTimer){if(!confirm('Some changes are not yet saved. Reload and discard them?'))return;clearTimeout(saveTimer);saveTimer=null;}load();}
+function changed(){render();report('Unsaved changes…');clearTimeout(saveTimer);saveTimer=setTimeout(send,600);}
+function send(){saveTimer=null;if(saving){queued=true;return;}saving=true;const snap=JSON.parse(JSON.stringify(state));const version=loadedVersion;report('Saving…');google.script.run.withSuccessHandler(res=>{saving=false;if(res.conflict){report('Another editor changed the board. Your changes were not saved.',true);alert('Another team member updated the board. To avoid overwriting their changes, your edit was NOT saved. Please refresh and re-enter it.');clearTimeout(saveTimer);saveTimer=null;load();return;}loadedVersion=res.state.version;if(queued||saveTimer){queued=false;send();return;}state=res.state;render();report('Saved · '+new Date().toLocaleTimeString());}).withFailureHandler(e=>{saving=false;report('Save failed: '+e.message,true);alert('The latest change was not saved. '+e.message);}).saveState(snap,version);}
+function updateValue(team,id,field,value){const m=state.teams[team].members.find(x=>x.id===id);if(m){m[field]=value;changed();}}
+function commentResident(team,id){const m=state.teams[team].members.find(x=>x.id===id);if(!m)return;const response=prompt('Resident note (e.g. Post-call, Sick leave, Annual leave). Leave blank to remove:',m.comment|| (m.postcall?'Post-call':''));if(response===null)return;m.comment=response.trim().slice(0,90);delete m.postcall;changed();}
+function moveCase(team,fromId,caseId,toTeam,toId){if(!state.teams[team]||!state.teams[toTeam])return;const from=state.teams[team].members.find(x=>x.id===fromId),to=state.teams[toTeam].members.find(x=>x.id===toId);if(!from||!to||from.id===to.id&&team===toTeam)return;const index=from.cases.findIndex(c=>c.id===caseId);if(index<0)return;const room=from.cases[index];if(to.cases.some(c=>norm(c)===norm(room)&&!c.crossed)){alert('This resident already has that room.');return;}from.cases.splice(index,1);to.cases.push(room);changed();}
+function moveFromDialog(){const e=editing;if(!e||e.admission||e.watcher||!e.caseId)return;const v=$('moveDestination').value;if(!v)return;const [team,id]=v.split('|');$('roomDialog').close();moveCase(e.team,e.memberId,e.caseId,team,id);}
+function onCaseDragStart(event,team,id,caseId){event.dataTransfer.setData('text/plain',JSON.stringify({team,id,caseId}));event.dataTransfer.effectAllowed='move';}
+function onRowDragOver(event){event.preventDefault();event.currentTarget.classList.add('dropTarget');}
+function onRowDragLeave(event){event.currentTarget.classList.remove('dropTarget');}
+function onRowDrop(event,team,id){event.preventDefault();event.currentTarget.classList.remove('dropTarget');let item;try{item=JSON.parse(event.dataTransfer.getData('text/plain'));}catch(e){return;}if(item?.team&&item.id&&item.caseId)moveCase(item.team,item.id,item.caseId,team,id);}
+
+function changeConsultant(team,value){state.teams[team].consultant=value;changed();}
+function addMember(team,role){state.teams[team].members.push({id:uid(),role,name:'',cases:[]});changed();}
+function removeMember(team,id){const m=state.teams[team].members.find(x=>x.id===id);if(m&&m.cases.length&&!confirm('Remove this team member and all their assigned cases?'))return;state.teams[team].members=state.teams[team].members.filter(x=>x.id!==id);changed();}
+function addWatcher(team){state.teams[team].watchers.push({id:uid(),name:'',cases:[]});changed();}
+function changeWatcher(team,id,value){const w=state.teams[team].watchers.find(x=>x.id===id);if(w){w.name=value;changed();}}
+function removeWatcher(team,id){state.teams[team].watchers=state.teams[team].watchers.filter(x=>x.id!==id);changed();}
+
+function allPrimaryRoomObjects(){
+ const list=[];
+ for(const [team,t] of Object.entries(state.teams))for(const m of t.members)for(const c of m.cases||[])
+   if(!c.crossed&&!['Intern','Student'].includes(m.role))list.push({team,m,c});
+ return list;
+}
+function siblingPartner(c){
+ if(!c.siblingGroup)return null;
+ return allPrimaryRoomObjects().find(x=>x.c.id!==c.id&&x.c.siblingGroup===c.siblingGroup);
+}
+function parseBulk(text){
+ const result=[];
+ for(const part of text.split(/[,;\n]+/).map(x=>x.trim()).filter(Boolean)){
+   const match=part.match(/^(\d{1,3})\s*-\s*(\d{1,3})$/);
+   if(match){let a=+match[1],b=+match[2];if(b<a||b-a>40)throw Error('Enter an ascending range with at most 41 rooms');for(let n=a;n<=b;n++)result.push(n);}
+   else if(/^\d{1,3}$/.test(part))result.push(+part);
+   else throw Error('Use numbers separated by commas, or ranges like 2-4');
+ }
+ if(result.length>100||result.some(n=>n<1||n>999))throw Error('Invalid number or too many rooms');
+ return [...new Set(result)];
+}
+function updateSiblingLink(c,partnerId){
+ const all=allPrimaryRoomObjects();
+ const old=c.siblingGroup;
+ if(old)for(const x of all)if(x.c.siblingGroup===old)delete x.c.siblingGroup;
+ if(!partnerId)return;
+ const partner=all.find(x=>x.c.id===partnerId);
+ if(!partner||partner.c.id===c.id)return;
+ if(partner.c.siblingGroup){const oldOther=partner.c.siblingGroup;for(const x of all)if(x.c.siblingGroup===oldOther)delete x.c.siblingGroup;}
+ const group=uid();c.siblingGroup=group;partner.c.siblingGroup=group;
+}
+
+function openRoom(team,memberId=null,caseId=null,admission=false,watcher=false){editing={team,memberId,caseId,admission,watcher};const arr=caseArray(editing);const c=arr.find(x=>x.id===caseId);$('dialogTitle').textContent=caseId?'Edit case':'Add case';$('floor').value=c?.floor||'P1';$('room').value=c?.room||'';$('caseStatus').value=c?.status||'new';$('caseNote').value=c?.note||'';$('noteLabel').style.display=admission?'block':'none';$('existingRoomActions').style.display=caseId?'flex':'none';
+$('bulkRoomBlock').style.display=caseId?'none':'block';$('bulkRooms').value='';
+$('siblingBlock').style.display=caseId&&!admission&&!watcher?'block':'none';
+if(caseId&&!admission&&!watcher){
+ const candidates=allPrimaryRoomObjects().filter(x=>x.c.id!==c.id);
+ const partner=siblingPartner(c);
+ $('siblingRoom').innerHTML='<option value="">No sibling link</option>'+candidates.map(x=>`<option value="${esc(x.c.id)}" ${partner?.c.id===x.c.id?'selected':''}>${esc(x.team)}: ${esc(x.m.name||x.m.role)} — ${esc(x.c.floor)}(${Number(x.c.room)})</option>`).join('');
+}
+const canMove=caseId&&!admission&&!watcher&&state.teams[team].members.some(m=>m.id===memberId&&!['Intern','Student'].includes(m.role));
+$('moveRoomBlock').style.display=canMove?'block':'none';
+if(canMove){const options=[];for(const [tk,t] of Object.entries(state.teams))for(const m of t.members)if(!['Intern','Student'].includes(m.role)&&!(tk===team&&m.id===memberId))options.push(`<option value="${esc(tk+'|'+m.id)}">${esc(tk+' — '+(m.name||m.role))}</option>`);$('moveDestination').innerHTML=options.join('');$('moveRoomBlock').style.display=options.length?'block':'none';}
+$('roomDialog').showModal();$('room').focus();}
+$('roomForm').addEventListener('submit',e=>{e.preventDefault();const n=$('room').value.trim()?Number($('room').value):NaN;if(!$('bulkRooms').value.trim()&&(!Number.isInteger(n)||n<1||n>999)){alert('Enter a valid room number.');return;}const dest=caseArray(editing);let bulk=[];try{bulk=editing.caseId?[]:parseBulk($('bulkRooms').value);}catch(error){alert(error.message);return;}
+if(bulk.length){
+ let added=0,skipped=0;
+ for(const roomNo of bulk){
+   if(dest.some(x=>x.floor===$('floor').value&&Number(x.room)===roomNo&&!x.crossed)){skipped++;continue;}
+   dest.push({id:uid(),floor:$('floor').value,room:roomNo,status:$('caseStatus').value,note:''});added++;
+ }
+ $('roomDialog').close();changed();if(skipped)alert(`${added} rooms added, ${skipped} already present in this person's list.`);
+ return;
+}
+const i=dest.findIndex(x=>x.id===editing.caseId);const old=i>=0?dest[i]:{};const c={...old,id:editing.caseId||uid(),floor:$('floor').value,room:n,status:$('caseStatus').value,note:editing.admission?$('caseNote').value.trim():''};
+if(i>=0){dest[i]=c;if(!editing.admission&&!editing.watcher)updateSiblingLink(c,$('siblingRoom').value);}else dest.push(c);
+$('roomDialog').close();changed();});
+function delCase(team,memberId,caseId,admission=false,watcher=false){if(!confirm('Delete this room from the board?'))return;const arr=caseArray({team,memberId,admission,watcher});const i=arr.findIndex(x=>x.id===caseId);if(i>=0)arr.splice(i,1);changed();}
+function deleteEditingCase(){const e=editing;if(!e?.caseId)return;if(!confirm('Permanently remove this room from this list?'))return;const a=caseArray(e);const i=a.findIndex(x=>x.id===e.caseId);if(i>=0)a.splice(i,1);$('roomDialog').close();changed();}
+function toggleFlag(flag){const e=editing;if(!e?.caseId)return;const c=caseArray(e).find(x=>x.id===e.caseId);if(!c)return;c.flag=c.flag===flag?'':flag;$('roomDialog').close();changed();}
+function toggleCrossed(){const e=editing;if(!e?.caseId)return;const c=caseArray(e).find(x=>x.id===e.caseId);if(!c)return;c.crossed=!c.crossed;$('roomDialog').close();changed();}
+function clearAdmissions(){if(!state.admissions.length)return;if(!confirm(`Clear ALL ${state.admissions.length} entries from the New Admissions list? This does not delete rooms assigned to CTU/GPU. This cannot be undone automatically.`))return;state.admissions=[];changed();}
+function groupedCases(cases,team,mid,admission=false,watcher=false,readOnly=false){
+ const groups=new Map();
+ const statusSorted=[...cases].sort((a,b)=>(a.status==='old'?0:1)-(b.status==='old'?0:1)||a.floor.localeCompare(b.floor,undefined,{numeric:true})||Number(a.room)-Number(b.room));
+ for(const c of statusSorted){const k=`${c.status}|${c.floor}`;if(!groups.has(k))groups.set(k,[]);groups.get(k).push(c);}
+ return [...groups.entries()].map(([key,items])=>{
+   const [status,floor]=key.split('|');
+   const nodes=items.map((c,i)=>{
+     const roomLabel=c.flag==='early'?`<span class="earlyCircle">${Number(c.room)}</span>`:Number(c.room);
+     const clickable=readOnly?`<span>${roomLabel}</span>`:`<button class="groupRoom ${c.crossed?'crossed':''}" type="button" title="Edit ${esc(floor)}(${Number(c.room)})" onclick="openRoom('${team}','${mid||''}','${c.id}',${admission},${watcher})">${roomLabel}</button>`;
+     const dragAttr=readOnly||admission||watcher?'':` draggable="true" ondragstart="onCaseDragStart(event,'${team}','${mid}','${c.id}')"`;
+     return `<span class="roomPiece"${dragAttr}>${i?',':''}${clickable}${c.siblingGroup?'<span class="siblingMark" title="Sibling">↔</span>':''}</span>`;
+   }).join('');
+   const bg=status==='old'?'#e3efff':'#ffe7ea';
+   const fg=status==='old'?'#1563bc':'#bd3348';
+   return `<span class="roomGroup ${status}" style="display:inline-block!important;background:${bg}!important;color:${fg}!important;white-space:nowrap;padding:3px 7px;line-height:25px;">${esc(floor)}(${nodes})</span>`;
+ }).join('');
+}
+function pill(c,team,mid,admission=false,watcher=false){const flag='';return `<span class="caseItem" ${!admission&&!watcher?`draggable="true" class="movableRoom" ondragstart="onCaseDragStart(event,'${team}','${mid}','${c.id}')"`:``}><button class="pill ${c.status}${c.crossed?' crossed':''}" title="Edit ${esc(norm(c))}" onclick="openRoom('${team}','${mid||''}','${c.id}',${admission},${watcher})">${displayRoom(c)}</button>${c.siblingGroup?'<span class="siblingMark" title="Sibling-linked room">↔</span>':''}${flag?`<span class="flag ${esc(c.flag)}">${flag}</span>`:''}${c.crossed?'<span class="flag">Discharged</span>':''}</span>`;}
+function summaryRow(labelClass,cases,status){const list=groupedCases(cases.filter(x=>x.status===status&&!x.crossed),'',null,false,false,true)||'<span class="dash">—</span>';return `<div class="boardSummary"><div class="sideTag ${labelClass}">${status.toUpperCase()}</div><div class="caseLine">${list}</div></div>`;}
+function residentRow(team,m){return `<div class="person" ondragover="onRowDragOver(event)" ondragleave="onRowDragLeave(event)" ondrop="onRowDrop(event,'${team}','${m.id}')"><div><div class="role">${esc(m.role)}</div><input class="field" placeholder="Name" value="${esc(m.name)}" onchange="updateValue('${team}','${m.id}','name',this.value)"><div class="commentLine"><button class="mini" onclick="commentResident('${team}','${m.id}')">+ Comment</button></div></div><div class="cases">${m.comment||m.postcall?`<span class="commentBadge">${esc(m.comment||(m.postcall?'Post-call':''))}</span>`:''}${groupedCases(m.cases,team,m.id)}<button class="mini" onclick="openRoom('${team}','${m.id}')">+ Case</button></div><button title="Remove member" class="mini danger" onclick="removeMember('${team}','${m.id}')">×</button></div>`;}
+
+function compactRow(team,m){return `<div class="miniPerson" ondragover="onRowDragOver(event)" ondragleave="onRowDragLeave(event)" ondrop="onRowDrop(event,'${team}','${m.id}')"><div class="miniHead"><span class="miniRole">${esc(m.role)}</span><button class="mini danger" title="Remove ${esc(m.role)}" onclick="removeMember('${team}','${m.id}')">×</button></div><div class="nameRow"><input class="field" aria-label="${esc(m.role)} name" placeholder="Name" value="${esc(m.name)}" onchange="updateValue('${team}','${m.id}','name',this.value)"></div><div class="inlineCases">${groupedCases(m.cases,team,m.id)}<button class="mini" onclick="openRoom('${team}','${m.id}')">+ Case</button></div></div>`;}
+function compactGroup(team,members,role){if(!members.length)return '';return `<div class="compactLabel">${role}s</div><div class="compactGrid">${members.map(m=>compactRow(team,m)).join('')}</div>`;}
+function rolloverNewCases(){if(!state||saving||saveTimer){alert('Please wait until the board finishes saving before starting the next day.');return;}let count=0;for(const t of Object.values(state.teams)){for(const m of t.members){count+=m.cases.filter(c=>c.status==='new'&&!c.crossed).length;}for(const w of t.watchers){count+=w.cases.filter(c=>c.status==='new'&&!c.crossed).length;}}if(!count){alert('No NEW assigned cases to change.');return;}if(!confirm(`Start next day? Change ${count} NEW assigned case(s) to OLD across CTU 1, CTU 2 and GPU (including watchers)?\n\nThe New admissions log stays unchanged. This action cannot be automatically undone.`))return;for(const t of Object.values(state.teams)){for(const m of t.members){for(const c of m.cases)if(c.status==='new'&&!c.crossed)c.status='old';}for(const w of t.watchers){for(const c of w.cases)if(c.status==='new'&&!c.crossed)c.status='old';}}changed();}
+function watcherRow(team,w){return `<div class="watchLine"><input class="field" placeholder="Name" value="${esc(w.name)}" onchange="changeWatcher('${team}','${w.id}',this.value)"><div class="inlineCases">${sorted(w.cases).map(c=>pill(c,team,w.id,false,true)).join('')}<button class="mini" onclick="openRoom('${team}','${w.id}',null,false,true)">+ Case</button></div><button class="mini danger" onclick="removeWatcher('${team}','${w.id}')">×</button></div>`;}
+function flaggedWatcherHTML(team,t){
+  const byRoom=new Map();
+  for(const m of primaryMembers(t))for(const c of m.cases||[]){
+    if(c.flag==='watcher'&&!c.crossed&&!byRoom.has(norm(c)))byRoom.set(norm(c),{c,memberId:m.id,manual:false});
+  }
+  // Support watcher entries already saved by older board versions, without requiring a new entry.
+  for(const w of t.watchers||[])for(const c of w.cases||[]){
+    if(!c.crossed&&!byRoom.has(norm(c)))byRoom.set(norm(c),{c,memberId:w.id,manual:true});
+  }
+  const rooms=sorted([...byRoom.values()].map(x=>x.c));
+  return rooms.map(c=>{const item=byRoom.get(norm(c));return pill(c,team,item.memberId,false,item.manual);}).join('')||'<span class="dash">—</span>';
+}
+function watcherCount(t){
+  const rooms=new Set();
+  for(const m of primaryMembers(t))for(const c of m.cases||[])if(c.flag==='watcher'&&!c.crossed)rooms.add(norm(c));
+  for(const w of t.watchers)for(const c of w.cases||[])if(!c.crossed)rooms.add(norm(c));
+  return rooms.size;
+}
+function teamLabel(team){return team==='GPU'?'GPU':team==='CTU1'?'CTU 1':'CTU 2';}
+function teamHTML(team){const t=state.teams[team];const all=activeCasesOf(t);const residents=t.members.filter(m=>m.role==='Resident');const interns=t.members.filter(m=>m.role==='Intern');const students=t.members.filter(m=>m.role==='Student');const specialists=t.members.filter(m=>m.role==='Specialist');return `<div class="panel-title"><h2>${teamLabel(team)}</h2><div class="consultantBox"><span class="muted">Consultant</span><input class="field" placeholder="Consultant name" value="${esc(t.consultant)}" onchange="changeConsultant('${team}',this.value)"></div></div><div class="inside">${summaryRow('tagOld',all,'old')}${summaryRow('tagNew',all,'new')}<div class="section">${residents.map(m=>residentRow(team,m)).join('')}</div>${compactGroup(team,interns,'Intern')}${compactGroup(team,students,'Student')}${compactGroup(team,specialists,'Specialist')}<div class="controls">${['Resident','Intern','Student',...(team==='GPU'?['Specialist']:[])].map(role=>`<button class="mini" onclick="addMember('${team}','${role}')">+ ${role}</button>`).join('')}</div><div class="infoStrip"><div class="infoCard"><span class="tagTotal">TOTAL</span><span class="infoNum">${all.length}</span></div><div class="infoCard watcherInline"><span class="tagWatcher">WATCHER</span><span class="inlineCases">${flaggedWatcherHTML(team,t)}</span></div></div></div>`;}
+
+function gpuMeta(){
+  if(!state.gpuGroups)state.gpuGroups={one:{consultant:state.teams.GPU.consultant||''},two:{consultant:''}};
+  if(!state.gpuGroups.one)state.gpuGroups.one={consultant:state.teams.GPU.consultant||''};
+  if(!state.gpuGroups.two)state.gpuGroups.two={consultant:''};
+  return state.gpuGroups;
+}
+function gpuNumber(m){
+  if(m.gpuUnit===1||m.gpuUnit===2)return m.gpuUnit;
+  const other=state.teams.GPU.members.filter(x=>x.role===m.role&&!x.gpuUnit);
+  return other.indexOf(m)<2?1:2;
+}
+function gpuConsultantChange(unit,value){gpuMeta()[unit===1?'one':'two'].consultant=value;if(unit===1)state.teams.GPU.consultant=value;changed();}
+function addGpuSpecialist(unit){
+  const people=state.teams.GPU.members.filter(m=>m.role==='Specialist'&&gpuNumber(m)===unit);
+  state.teams.GPU.members.push({id:uid(),role:'Specialist',name:'',gpuUnit:unit,cases:[]});changed();
+}
+function addGpuCoverage(unit,role){
+  state.teams.GPU.members.push({id:uid(),role,name:'',gpuUnit:unit,cases:[]});changed();
+}
+function gpuSpecialistRow(m){
+ return `<div class="gpuSlot" ondragover="onRowDragOver(event)" ondragleave="onRowDragLeave(event)" ondrop="onRowDrop(event,'GPU','${m.id}')"><input class="field" aria-label="Specialist name" placeholder="Specialist name" value="${esc(m.name)}" onchange="updateValue('GPU','${m.id}','name',this.value)"><div class="cases">${groupedCases(m.cases,'GPU',m.id)}<button class="mini" onclick="openRoom('GPU','${m.id}')">+ Case</button></div><button class="mini danger" title="Remove specialist" onclick="removeMember('GPU','${m.id}')">×</button></div>`;
+}
+function toggleGpuCoverage(unit){gpuExpanded[unit]=!gpuExpanded[unit];render();}
+function gpuSection(unit){
+ const t=state.teams.GPU,meta=gpuMeta()[unit===1?'one':'two'];
+ const specialists=t.members.filter(m=>m.role==='Specialist'&&gpuNumber(m)===unit);
+ const intern=t.members.filter(m=>m.role==='Intern'&&gpuNumber(m)===unit);
+ const students=t.members.filter(m=>m.role==='Student'&&gpuNumber(m)===unit);
+ const vacant=Array.from({length:Math.max(0,2-specialists.length)},(_,i)=>`<div class="gpuSlot"><span class="muted">Specialist ${specialists.length+i+1}</span><button class="mini" onclick="addGpuSpecialist(${unit})">+ Add specialist</button><span></span></div>`).join('');
+ return `<div class="gpuUnit"><div class="gpuUnitHead"><b>GPU ${unit}</b><div class="gpuConsultant"><span class="muted">Consultant</span><input class="field" placeholder="Name" value="${esc(meta.consultant)}" onchange="gpuConsultantChange(${unit},this.value)"></div></div><div class="gpuUnitBody"><div class="gpuHeadGrid"><div class="gpuStaff">${specialists.map(gpuSpecialistRow).join('')}${vacant}<div class="controls"><button class="mini" onclick="addGpuSpecialist(${unit})">+ Specialist</button></div></div>${gpuExpanded[unit]?`<aside class="gpuSide"><div class="gpuSideTitle"><div class="compactLabel">Interns / Students</div><button class="mini" title="Collapse intern/student panel" onclick="toggleGpuCoverage(${unit})">−</button></div>${[...intern,...students].map(m=>compactRow('GPU',m)).join('')}<div class="controls"><button class="mini gpuTinyAdd" onclick="addGpuCoverage(${unit},'Intern')">+ Intern</button><button class="mini gpuTinyAdd" onclick="addGpuCoverage(${unit},'Student')">+ Student</button></div></aside>`:`<aside class="gpuCollapsed"><button class="mini" title="Expand intern/student panel" onclick="toggleGpuCoverage(${unit})">+ Intern / Student</button></aside>`}</div></div></div>`;
+}
+function gpuHTML(){
+ const t=state.teams.GPU;
+ const legacy=t.members.filter(m=>m.role==='Resident'); // preserve any earlier GPU resident assignments
+ return `<div class="panel-title"><h2>GPU</h2></div><div class="inside">${gpuSection(1)}${gpuSection(2)}${legacy.length?`<div class="section"><h3>Other existing GPU assignments</h3>${legacy.map(m=>residentRow('GPU',m)).join('')}</div>`:''}<div class="infoStrip"><div class="infoCard watcherInline"><span class="tagWatcher">WATCHER</span><span class="inlineCases">${flaggedWatcherHTML('GPU',t)}</span></div></div></div>`;
+}
+function admissionsHTML(){
+ const a=state.admissions;
+ const wards=['P1','P2','P3','P5','VIP'];
+ const grouped=wards.filter(f=>a.some(c=>c.floor===f)).map(f=>{
+   const items=sorted(a.filter(c=>c.floor===f));
+   const nodes=items.map((c,i)=>{
+     const label=c.flag==='early'?`<span class="earlyCircle">${Number(c.room)}</span>`:Number(c.room);
+     return `${i?', ':''}<button type="button" class="groupRoom ${c.crossed?'crossed':''}" title="Edit ${esc(f)}(${Number(c.room)})" onclick="openRoom('',null,'${c.id}',true)">${label}</button>`;
+   }).join('');
+   return `<div class="admissionGroupedLine"><span class="roomGroup new" style="background:#ffe7ea!important;color:#bd3348!important;display:inline-block;max-width:100%;white-space:normal;line-height:1.7">${esc(f)}(${nodes})</span></div>`;
+ }).join('');
+ return `<div class="panel-title"><h2>New admissions</h2></div><div class="inside"><div class="controls"><button class="action" onclick="openRoom('',null,null,true)">+ Add admission</button><button class="mini danger" onclick="clearAdmissions()">Clear all admissions</button></div><div class="admissionGroups">${grouped||'<p class="muted">No new admissions listed yet.</p>'}</div><div class="infoStrip"><div class="infoCard"><span class="tagTotal">TOTAL</span><span class="infoNum">${a.length}</span></div></div><div class="two"><label class="muted">Cyber <input class="field" placeholder="Count / note" value="${esc(state.cyber)}" onchange="state.cyber=this.value;changed()"></label><label class="muted">Pending <input class="field" placeholder="Count / note" value="${esc(state.pending)}" onchange="state.pending=this.value;changed()"></label></div></div>`;
+}
+function diagnostic(){
+  const entries=[],coverageIssues=[];
+  const teamRooms={};
+  for(const [team,t] of Object.entries(state.teams)){
+    const owners=primaryMembers(t);
+    teamRooms[team]=new Set(owners.flatMap(m=>(m.cases||[]).filter(c=>!c.crossed).map(norm)));
+    for(const m of owners)for(const c of m.cases||[]){
+      if(c.crossed)continue;
+      entries.push({team,who:m.name||m.role,room:norm(c)});
+    }
+  }
+  for(const [team,t] of Object.entries(state.teams)){
+    for(const m of t.members.filter(m=>['Intern','Student'].includes(m.role))){
+      for(const c of m.cases||[]){
+        if(c.crossed)continue;
+        if(!teamRooms[team].has(norm(c))){
+          const located=Object.keys(teamRooms).filter(k=>k!==team&&teamRooms[k].has(norm(c)));
+          coverageIssues.push({team,who:m.name||m.role,role:m.role,room:norm(c),located});
+        }
+      }
+    }
+  }
+  const grouped={}; entries.forEach(x=>(grouped[x.room]??=[]).push(x));
+  const duplicates=Object.entries(grouped).filter(([_,xs])=>xs.length>1);
+  const observed=new Set(entries.map(x=>x.room));
+  const missing=(floor,max)=>Array.from({length:max},(_,i)=>floor+(i+1)).filter(x=>!observed.has(x));
+  const m1=missing('P1',36),m5=missing('P5',37);
+  const unassignedAdmissions=state.admissions.filter(c=>!c.crossed&&!observed.has(norm(c)));
+  if(duplicates.length||coverageIssues.length||m1.length||m5.length||unassignedAdmissions.length){
+    $('checksPanel').innerHTML=`<div class="notice">${duplicates.length?`<div><strong>Duplicate primary assignments:</strong> ${duplicates.map(([r,x])=>`${esc(r)} (${x.map(y=>esc(y.team+'/'+y.who)).join(', ')})`).join('; ')}</div>`:''}${coverageIssues.length?`<div style="margin-top:6px"><strong>Intern/student rooms not on their own team's resident/specialist list:</strong> ${coverageIssues.map(x=>`${esc(x.team)} / ${esc(x.who)}: ${esc(x.room)}${x.located.length?' (assigned to '+x.located.map(esc).join(', ')+')':' (not found on any team)'}`).join('; ')}</div>`:''}${m1.length?`<div style="margin-top:6px"><strong>P1:</strong> ${m1.map(r=>Number(r.slice(2))).join(', ')}</div>`:''}${m5.length?`<div style="margin-top:6px"><strong>P5:</strong> ${m5.map(r=>Number(r.slice(2))).join(', ')}</div>`:''}${unassignedAdmissions.length?`<div style="margin-top:6px"><strong>Admissions not yet assigned:</strong> ${['P1','P2','P3','P5','VIP'].filter(f=>unassignedAdmissions.some(c=>c.floor===f)).map(f=>`${f}: ${unassignedAdmissions.filter(c=>c.floor===f).map(c=>Number(c.room)).sort((a,b)=>a-b).join(', ')}`).join(' · ')}</div>`:''}</div>`;
+  }else{$('checksPanel').innerHTML='<div class="ok">✓ No duplicate primary assignments, unlisted rooms, or intern/student coverage mismatches detected.</div>';}
+}
+let tvOn=false;
+function toggleTV(){
+ tvOn=!tvOn;document.body.classList.toggle('tvMode',tvOn);
+ $('tvToggle').textContent=tvOn?'← Edit View':'📺 TV View';
+ if(tvOn){renderTV();if(document.documentElement.requestFullscreen)document.documentElement.requestFullscreen().catch(()=>{});}
+ else if(document.fullscreenElement){document.exitFullscreen().catch(()=>{});}
+}
+function tvRoomGroups(cases){
+ const active=cases.filter(c=>!c.crossed);
+ const out=[];
+ for(const status of ['old','new'])for(const floor of ['P1','P2','P3','P5','VIP']){
+  const a=active.filter(c=>c.status===status&&c.floor===floor).sort((x,y)=>Number(x.room)-Number(y.room));
+  if(a.length)out.push(`<span class="tvChip ${status==='new'?'new':''}">${esc(floor)}(${a.map(c=>c.flag==='early'?`<span class="tvCircle">${Number(c.room)}</span>`:Number(c.room)).join(', ')})</span>`);
+ }
+ return out.join('')||'<span class="tvTiny">—</span>';
+}
+function tvMemberRow(m){
+ const note=m.comment||m.note||'';
+ return `<div class="tvRow"><div>${esc(m.name||m.role)}${note?`<span class="tvNote">${esc(note)}</span>`:''}</div><div class="tvChips">${tvRoomGroups(m.cases||[])}</div></div>`;
+}
+function tvCoverageHTML(members){return members.length?`<div class="tvCoverage"><div class="tvCoverageHeading">INTERNS / STUDENTS</div>${members.map(tvMemberRow).join('')}</div>`:'';}
+function tvTeam(k){
+ const t=state.teams[k], members=t.members.filter(m=>!['Intern','Student'].includes(m.role));
+ const coverage=t.members.filter(m=>['Intern','Student'].includes(m.role));
+ const all=members.flatMap(m=>m.cases||[]).filter(c=>!c.crossed);
+ const wards=(st)=>['P1','P2','P3','P5','VIP'].map(f=>{const a=all.filter(c=>c.status===st&&c.floor===f).sort((x,y)=>Number(x.room)-Number(y.room));return a.length?`${f}(${a.map(c=>c.flag==='early'?`<span class="tvCircle">${Number(c.room)}</span>`:Number(c.room)).join(', ')})`:null;}).filter(Boolean).join(' · ')||'—';
+ const watches=all.filter(c=>c.flag==='watcher');
+ return `<section class="tvPanel"><div class="tvHead"><span>${k==='CTU1'?'CTU 1':'CTU 2'}</span><span class="tvConsultant">${esc(t.consultant||'')}</span></div><div class="tvBody"><div class="tvRow"><b>OLD</b><span class="tvOld">${wards('old')}</span></div><div class="tvRow"><b>NEW</b><span class="tvNew">${wards('new')}</span></div>${members.map(tvMemberRow).join('')}${tvCoverageHTML(coverage)}<div class="tvFooter"><b>TOTAL: ${new Set(all.map(norm)).size}</b><b>WATCHER: ${watches.map(c=>`${c.floor}(${Number(c.room)})`).join(', ')||'—'}</b></div></div></section>`;
+}
+function tvAdmittingMembers(){
+ return state.teams.GPU.members.filter(m=>!['Intern','Student'].includes(m.role)&&/\badmitt?ing\b/i.test(m.name||''));
+}
+function tvGPU(){
+ const t=state.teams.GPU,meta=gpuMeta();
+ const sections=[1,2].map(unit=>{
+  const members=t.members.filter(m=>m.role==='Specialist'&&gpuNumber(m)===unit&&!tvAdmittingMembers().some(x=>x.id===m.id));
+  const consultant=meta[unit===1?'one':'two'].consultant;
+  const coverage=t.members.filter(m=>['Intern','Student'].includes(m.role)&&gpuNumber(m)===unit);
+  const watchers=members.flatMap(m=>m.cases||[]).filter(c=>!c.crossed&&c.flag==='watcher');
+  const watch=watchers.map(c=>`${c.floor}(${Number(c.room)})`).join(', ')||'—';
+  return `<div class="tvSubhead tvGpuHead"><span>GPU ${unit} · ${esc(consultant||'')}</span><span class="tvGroupWatcher">WATCHER: ${esc(watch)}</span></div>${members.map(tvMemberRow).join('')}${tvCoverageHTML(coverage)}`;
+ }).join('');
+ return `<section class="tvPanel gpuTV"><div class="tvHead">GPU</div><div class="tvBody">${sections}</div></section>`;
+}
+function tvAdmissions(){
+ const a=state.admissions.filter(c=>!c.crossed);
+ const admitting=tvAdmittingMembers();
+ const rows=['P1','P2','P3','P5','VIP'].filter(f=>a.some(c=>c.floor===f)).map(f=>`<div class="tvRow"><b>${f}</b><span>${a.filter(c=>c.floor===f).map(c=>Number(c.room)).sort((x,y)=>x-y).join(', ')}</span></div>`).join('')||'<span class="tvTiny">None listed</span>';
+ const admitBox=admitting.length?`<div class="tvAdmitting"><div class="tvSubhead">Admitting physician</div>${admitting.map(tvMemberRow).join('')}</div>`:'';
+ return `<section class="tvPanel admitTV"><div class="tvHead">New Admissions <span>${a.length}</span></div><div class="tvBody">${rows}<div class="tvFooter"><span>Pending: ${esc(state.pending||'—')}</span><span>Cyber: ${esc(state.cyber||'—')}</span></div>${admitBox}</div></section>`;
+}
+function fitTV(){
+ // No automatic shrinking: readable room labels take priority.
+ // The screen can scroll when a large census exceeds available height.
+ const canvas=document.querySelector('#tvBoard .tvCanvas');
+ if(canvas){canvas.style.transform='none';canvas.style.width='100%';}
+}
+window.addEventListener('resize',()=>{if(tvOn)requestAnimationFrame(fitTV);});
+function renderTV(){
+ if(!tvOn||!state)return;
+ $('tvBoard').innerHTML=`<div class="tvCanvas"><div class="tvGrid">${tvTeam('CTU1')}${tvTeam('CTU2')}${tvGPU()}${tvAdmissions()}</div></div>`;
+ requestAnimationFrame(fitTV);
+}
+function render(){if(!state)return;for(const t of ['CTU1','CTU2','GPU']){$(t).innerHTML=t==='GPU'?gpuHTML():teamHTML(t);}$('admissions').innerHTML=admissionsHTML();diagnostic();renderTV();}
+load();setInterval(()=>{if(!saving&&!saveTimer&&document.visibilityState==='visible')load();},30000);
+</script></body></html>
